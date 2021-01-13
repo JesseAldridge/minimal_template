@@ -30,14 +30,15 @@ function render_page(req, res, page, page_data) {
   res.end(response_string)
 }
 
-// respond to all requests
-
-let form_responses = []
 const DATABASE_PATH = expand_home_dir('~/my_database.json')
-if(fs.existsSync(DATABASE_PATH)) {
-  const responses_json = fs.readFileSync(DATABASE_PATH, 'utf8')
-  form_responses = JSON.parse(responses_json)
+if(!fs.existsSync(DATABASE_PATH)) {
+  fs.writeFileSync(DATABASE_PATH, JSON.stringify([
+    {"first_name": "Jesse", "last_name": "Aldridge"},
+    {"first_name": "Bob", "last_name": "Ross"},
+  ]))
 }
+const responses_json = fs.readFileSync(DATABASE_PATH, 'utf8')
+let form_responses = JSON.parse(responses_json)
 
 app.use(function(req, res, next) {
   const ip_address = req.connection.remoteAddress
@@ -55,7 +56,6 @@ app.use(function(req, res, next) {
   }
 });
 
-// refer to assets in this url by their path relative to static; e.g. static/graph.png -> graph.png
 const static = serveStatic('static')
 app.use(function(req, res, next) {
   static(req, res, next)
