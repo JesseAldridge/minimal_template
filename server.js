@@ -1,12 +1,10 @@
-// npm i --save body-parser connect cookie-session lodash mustache serve-static expand-home-dir
+// npm i --save connect mustache serve-static expand-home-dir
 
 const fs = require('fs');
 const http = require('http');
 const path = require('path');
 
-const bodyParser = require('body-parser');
 const connect = require('connect');
-const lodash = require('lodash');
 const mustache = require('mustache');
 const serveStatic = require('serve-static');
 const expand_home_dir = require('expand-home-dir')
@@ -19,8 +17,6 @@ function timestamped_log() {
 }
 
 const app = connect();
-
-app.use(bodyParser.urlencoded({extended: false}));
 
 function render_page(req, res, page, page_data) {
   const template_html = fs.readFileSync(`page_templates/${page}.html`, 'utf8')
