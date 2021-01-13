@@ -5,6 +5,30 @@
   }
 </style>
 
-<div>Hello ConnectJs</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
 
 <img class='hello-img' src='hello.png'>
+
+<div id="vue-app">
+  <h1>${ message }</h1>
+  <ul>
+    <li v-for="response in form_responses">
+      ${response.firstname} ${response.lastname}
+    </li>
+  </ul>
+  <input type="text" v-model="message">
+</div>
+
+
+<script>
+  new Vue({
+    el: "#vue-app",
+    delimiters: ['${', '}'],
+    data() {
+      return {
+        message: "Hello World!",
+        form_responses: {{{form_responses}}},
+      }
+    }
+  });
+</script>

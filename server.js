@@ -6,7 +6,6 @@ const path = require('path');
 
 const bodyParser = require('body-parser');
 const connect = require('connect');
-const cookieSession = require('cookie-session')
 const lodash = require('lodash');
 const mustache = require('mustache');
 const serveStatic = require('serve-static');
@@ -21,7 +20,6 @@ function timestamped_log() {
 
 const app = connect();
 
-app.use(cookieSession({keys: ['auth_token']}));
 app.use(bodyParser.urlencoded({extended: false}));
 
 function render_page(req, res, page, page_data) {
@@ -47,7 +45,9 @@ app.use(function(req, res, next) {
   const url = req.url.split('?')[0]
 
   if(url == '/')
-    render_page(req, res, 'index', {})
+    render_page(req, res, 'index', {
+      form_responses: JSON.stringify(form_responses),
+    })
   else {
     // static file
     next()
